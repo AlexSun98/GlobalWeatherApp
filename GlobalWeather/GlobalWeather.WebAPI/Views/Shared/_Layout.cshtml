@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Global Weather</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.408/styles/kendo.common-bootstrap.min.css" />
+    <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.408/styles/kendo.bootstrap.min.css" />
+    <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.408/styles/kendo.dataviz.min.css" />
+    <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.408/styles/kendo.dataviz.bootstrap.min.css" />
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://cdn.kendostatic.com/2015.1.408/js/kendo.all.min.js"></script>
+    <script src="http://cdn.kendostatic.com/2015.1.408/js/kendo.timezones.min.js"></script>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+ 
+    <!--[if lt IE 9]>
+    <script src="vendor/html5shiv.js"></script>
+    <script src="vendor/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+    <header>
+        <div class="container" class="row">
+            <h1 class="col-sm-3 hidden-sm">Weather Forecast - Test</h1>
+            @*<div id="configurator-wrap" class="col-sm-9 hidden-xs">
+                <div id="configurator" class="row">
+                    <label class="col-sm-4">
+                        <div class="description">find a country</div>
+                        <select id="dimensions"></select>
+                    </label>
+                  
+                </div>
+            </div>*@
+        </div>
+    </header>
+
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+        
+        </footer>
+    </div>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

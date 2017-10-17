@@ -1,0 +1,1 @@
+E:\GitHub\GlobalWeather\GlobalWeather\GlobalWeather.Web.Tests\obj\Debug\GlobalWeather.Web.Tests.csprojResolveAssemblyReference.cache

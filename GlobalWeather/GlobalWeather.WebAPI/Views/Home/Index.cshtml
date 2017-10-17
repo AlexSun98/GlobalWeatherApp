@@ -1,0 +1,140 @@
+﻿
+<div class="row">
+
+    <!--Container-->
+    <div id="container-home" class="container">
+        <section class="well">
+            <h2 class="ra-well-title">Please enter a country name to start weather search.</h2>
+        </section>
+
+        <section class="ra-section">
+            <!--row 1: Two input fields for country field and city list-->
+            <div class="row clearfix">
+                <div class="col-lg-4">
+                    <div class="demo-section k-content">
+                        <h4>Find a country</h4>
+                        <input id="countries" style="width: 100%;" title="Hint: Type Australia" />
+                        <div class="demo-hint">Hint: type "Australia, New Zealand or China"</div>
+                    </div>
+                </div>
+
+                <div class="col-lg-8">
+                    <div class="demo-section k-content">
+                        <h4>Find a city</h4>
+                        <select id="cities"></select>
+                        <div class="demo-hint">Hint: select "WynyardWest, Christchurch or Beijing"</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!--row 2: Weather details-->
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <section id="City" class="well">
+                    <div class="demo-section k-content">
+                        <div id="currentweather" class="weather">
+                           
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <footer></footer>
+    </div>
+
+</div>
+
+<style>
+    .weather {
+        margin: 0 auto 30px;
+        text-align: center;
+    }
+</style>
+
+
+
+    <!--Just for test-->
+    <script>
+        var countryName;
+        var cityName;
+        //contacts api to fetch country names
+        $(document).ready(function () {
+            $("#countries").kendoAutoComplete({
+                filter: "startswith",
+                select: onSelectCountry,
+                error: onError,
+                placeholder: "Select a country...",
+                dataSource: {
+                    type: "webapi",
+                    transport: {
+                        read: "/api/weather/getallcountries"
+                    }
+                }
+            });
+
+            $("#cities").kendoDropDownList({
+                optionLabel: "Select a city...",
+                error: onError,
+                select: onSelectCity,
+                dataSource: {
+                    type: "webapi",
+                    transport: {
+                        read: "/api/weather/getcitiesbycountry/{countryname}",
+                        data: { countryName: countryName }
+                    }
+                },
+                //change: function (e) {
+                //    city = this.value();
+                //    changeCity(true);
+                //} this one would call a AJax call to update view and data for weather info. But APi doesn't return data by "city" names, so we just use mocked data for test
+            });
+
+            function onSelectCountry(e) {
+                var dataItem = this.dataItem(e.item.index());
+                countryName = dataItem;
+                var cityList = $('#cities').data('kendoDropDownList');
+                if (countryName != '') {
+                    cityList.dataSource.read({ countryName: countryName })
+                }
+            }
+
+            //this one would call a AJax call to update view and data for weather info. But APi doesn't return data by "city" names, so we just use mocked data for test
+            function onSelectCity(e) {
+                var dataItem = this.dataItem(e.item);
+                cityName = dataItem;
+
+                if (cityName != '')
+                {
+                    $.ajax(
+                    {
+                        url: '/home/updatecurrentweatherview/',
+                        data: { "cityName": cityName, "countryName": countryName },
+                        type: 'get',
+                        success: successFunc,
+                        error: errorFunc
+                    });
+                }
+                function successFunc(data) {
+                    if (data == "") {
+                        alert("Current weather of the city is not found. Please try another one!");
+                    }
+                    else {
+                        $("#currentweather").replaceWith(data);
+                    }
+                }
+
+                function errorFunc() {
+                    alert("Current weather of the city is not found. Please try another one!");
+                }
+                    
+            }
+        });
+
+        function onError(e) {
+            alert("Status: " + e.status + "; Error message: " + e.errorThrown);
+        }
+    </script>
+
+

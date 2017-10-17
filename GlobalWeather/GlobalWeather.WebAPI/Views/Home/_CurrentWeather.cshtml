@@ -1,0 +1,17 @@
+﻿@using GlobalWeather.WebAPI.Models;
+
+@model CurrentWeatherViewModel
+
+<div id="currentweather" class="weather">
+    <h2 id="location">Weather in @Model.Weather.City.Name, @Model.Weather.City.Country</h2>
+    <p id="lastupdate">@Model.Weather.LastUpdate.Value</p>
+    @*<span id="weathericon" class="cloudy">&nbsp;</span>*@
+    <img src='@string.Format("http://openweathermap.org/img/w/{0}.png", Model.Weather.Weather.Icon)' width="140" height="140">
+    <h2 id="temperature">Temperature: @(Model.Weather.Temperature.Value - 273.15)&#x2103</h2>
+    <p id="wind">@Model.Weather.Wind.Direction.Name, @Model.Weather.Wind.Speed.Name</p>
+    <p id="tempmin" style="color:darkgrey">@(Model.Weather.Temperature.Min - 273.15)&#x2103 - <span id="tempmax" style="color:black">@(Model.Weather.Temperature.Max -273.15)&#x2103</span></p>
+    <p id="pressure">Pressure: @Model.Weather.Pressure.Value @Model.Weather.Pressure.Unit, Humidity: @Model.Weather.Humidity.Value @Model.Weather.Humidity.Unit</p>
+    <p id="precipitation">Precipitation: @Model.Weather.Precipitation.Mode/@Model.Weather.Precipitation.Value mm</p>
+    <p id="clouds">Sky Condition: @Model.Weather.Clouds.Name</p>
+  
+</div>
